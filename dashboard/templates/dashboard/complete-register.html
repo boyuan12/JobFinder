@@ -1,0 +1,23 @@
+{% extends "authentication/base.html" %}
+
+{% block title %}
+    Complete Register
+{% endblock %}
+
+{% block main %}
+    <h1>Complete Register</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div>
+            <label>Are you a ...</label> <br>
+            <input type="radio" name="role" value="0">Employer <br>
+            <input type="radio" name="role" value="1">Job Seeker
+        </div>
+        <br>
+        <div>
+            <label>Name/Company Name</label> <br>
+            <input type="text" class="form-control" name="name">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}
