@@ -13,6 +13,8 @@ def index(request):
         except Profile.DoesNotExist:
             return HttpResponseRedirect("/complete-register/")
 
+    elif int(request.session.get("role")) == 0:
+        return HttpResponseRedirect("/employer/")
     return HttpResponse("Welcome to the dashboard!")
 
 

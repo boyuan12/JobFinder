@@ -1,0 +1,40 @@
+{% extends "employer/base.html" %}
+
+{% block title %}
+    Post a Job
+{% endblock %}
+
+{% block main %}
+    <h1>Post a Job</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label id="title" class="form-label">Job Title</label>
+            <input type="text" name="title" id="title" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Job Description</label>
+            <textarea class="form-control" id="description" rows="3" name="descrition"></textarea>
+        </div>
+        <div class="mb-3">
+            <label id="qualification" class="form-label">Qualification (seperate by comma)</label>
+            <input type="text" name="qualification" id="quanification" class="form-control">
+        </div>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Min Salary" aria-label="Min Salary" name="min" id="salary">
+            <span class="input-group-text">~</span>
+            <input type="text" class="form-control" placeholder="Max Salary" aria-label="Max Salary" name="max">
+            <select name="rate">
+                <option value="/hour">/hour</option>
+                <option value="/week">/week</option>
+                <option value="/month">/month</option>
+                <option value="/year">/year</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label id="location" class="form-label">Location</label>
+            <input type="text" name="locatioon" id="location" class="form-control">
+        </div>
+        <button class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}
