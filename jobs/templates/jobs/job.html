@@ -1,0 +1,28 @@
+{% extends "authentication/base.html" %}
+
+{% block title %}
+    Job
+{% endblock %}
+
+{% block main %}
+<div class="card text-center">
+    <div class="card-header">
+      Job From {{ company }}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{ job.title }}</h5>
+      <p class="card-text">{{ job.description }}</p>
+      <hr>
+      <p class="card-text">Qualifications: </p>
+      <ul>
+        {% for q in qs %}
+            <li>{{ q.name }}</li>
+        {% endfor %}
+      </ul>
+      <a href="#" class="btn btn-primary">Apply</a>
+    </div>
+    <div class="card-footer text-muted">
+      2 days ago
+    </div>
+  </div>
+{% endblock %}
