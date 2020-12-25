@@ -12,6 +12,7 @@ class Job(models.Model):
     freq = models.CharField(max_length=10)
     location = models.CharField(max_length=255)
     code = models.CharField(max_length=20, default=helpers.random_str)
+    timestamp = models.DateTimeField(auto_now=True)
 
 
 class Qualification(models.Model):

@@ -35,3 +35,12 @@ def post_job(request):
 
     else:
         return render(request, "employer/new.html")
+
+
+def view_all_jobs(request):
+    profile = Profile.objects.get(user_id=request.user.id)
+    jobs = Job.objects.filter(profile=profile.id)
+
+    return render(request, "employer/all.html", {
+        "jobs": jobs
+    })
