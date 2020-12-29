@@ -12,7 +12,7 @@ def random_str(n=20):
 def upload_s3(request):
     name = random_str(10)
     s3.Bucket("django-jobfinder").put_object(Key=name, Body=request.FILES["file"])
-    return name + ".pdf"
+    return name
 
 def get_s3(name):
     obj = s3.Object("django-jobfinder", name)

@@ -1,0 +1,13 @@
+{% extends "employer/base.html" %}
+
+{% block title %}
+    Employer
+{% endblock %}
+
+{% block main %}
+    <ul>
+        {% for a in apps %}
+            <li>{{ a.0 }} <{{ a.1 }}> applied to {{ a.2 }} on {{ a.3 }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
