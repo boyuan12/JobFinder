@@ -1,0 +1,32 @@
+{% extends "authentication/base.html" %}
+
+{% block title %}
+    Job
+{% endblock %}
+
+{% block main %}
+    <h1>Apply to {{ job.title }} from {{ company }}</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label>Name</label>
+        <div>
+            <input type="text" class="form-control" value="{{ profile.name }}" disabled>
+        </div>
+        <br>
+        <label>Email</label>
+        <div>
+            <input type="text" class="form-control" value="{{ request.user.username }}" disabled>
+        </div>
+        <br>
+        <label>Resume</label>
+        <div>
+            <input type="file" name="file" accept="application/pdf" required>
+        </div>
+        <br>
+        <label>Cover Letter (optional)</label>
+        <div>
+            <textarea cols="100" rows="10" name="cover"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}

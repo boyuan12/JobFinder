@@ -4,6 +4,9 @@ from .models import Profile
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 
+# S3_ACCESS_KEY_ID
+# S3_SECRET_ACCESS_KEY_ID
+
 # Create your views here.
 @login_required(login_url="/auth/login/")
 def index(request):
