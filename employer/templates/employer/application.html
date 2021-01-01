@@ -1,0 +1,34 @@
+{% extends "authentication/base.html" %}
+
+{% block title %}
+    Job
+{% endblock %}
+
+{% block main %}
+    <h1>{{ profile.name }} applied to {{ job.title }}</h1>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label>Name</label>
+        <div>
+            <input type="text" class="form-control" value="{{ profile.name }}" disabled>
+        </div>
+        <br>
+        <label>Email</label>
+        <div>
+            <input type="text" class="form-control" value="{{ user.username }}" disabled>
+        </div>
+        <br>
+        <label>Resume</label>
+        <div>
+            <a href="/jobs/resume/{{ app.resume }}">View Resume</a>
+        </div>
+        <br>
+        <label>Cover Letter (optional)</label>
+        <div>
+            <textarea cols="100" rows="10" name="cover" disabled>{{ app.cover_letter }}</textarea>
+        </div>
+        <button type="button" class="btn btn-danger">Reject This Candidate</button>
+        <button type="button" class="btn btn-primary">Invite this candidate to interview</button>
+        <button type="button" class="btn btn-success">Hire This Candidate</button>
+    </form>
+{% endblock %}

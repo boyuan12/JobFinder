@@ -12,7 +12,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 def index(request):
     if request.session.get("role") is None:
         try:
-            Profile.objects.get(user_id=request.user.id)
+            p = Profile.objects.get(user_id=request.user.id)
+            request.session["role"] = int(p.role)
         except Profile.DoesNotExist:
             return HttpResponseRedirect("/complete-register/")
 

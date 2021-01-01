@@ -1,0 +1,21 @@
+{% extends "authentication/base.html" %}
+
+{% block title %}
+    Chat
+{% endblock %}
+
+{% block main %}
+    <h1>{{ profile.name }} applied to {{ job.title }}</h1>
+    {% for m in messages %}
+        {{ m }}
+    {% endfor %}
+    <hr>
+    <h3>Send a message to {{ profile.name }}</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <div>
+            <textarea cols="100" rows="10" name="message"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}

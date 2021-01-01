@@ -5,5 +5,7 @@ urlpatterns = [
     path("", views.index),
     path("new/", views.post_job),
     path("jobs/", views.view_all_jobs),
-    path("apps/", views.view_all_application)
+    path("apps/", views.view_all_application),
+    path("app/<int:id>/", views.view_application),
+    path("chat/<int:app_id>/", views.chat_with_candidate),
 ]
