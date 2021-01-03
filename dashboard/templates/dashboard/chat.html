@@ -11,20 +11,20 @@
         {% if m.from_id != request.user.id %}
             <div>
                 {{ m.timestamp }} <br>
-                <b>{{ profile1.name }}</b>: <br>
+                <b>{{ profile2.name }}</b>: <br>
                 {{ m.message }}
             </div>
         {% else %}
             <div>
                 {{ m.timestamp }} <br>
-                <b>{{ profile2.name }}</b>: <br>
+                <b>{{ profile1.name }}</b>: <br>
                 {{ m.message }}
             </div>
         {% endif %}
         <br>
     {% endfor %}
     <hr>
-    <h3>Send a message to {{ profile1.name }}</h3>
+    <h3>Send a message to {{ profile2.name }}</h3>
     <form method="POST">
         {% csrf_token %}
         <div>

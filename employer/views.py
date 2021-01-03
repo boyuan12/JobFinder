@@ -92,10 +92,12 @@ def chat_with_candidate(request, app_id):
         app = Application.objects.get(id=app_id)
         messages = ChatMessage.objects.filter(application_id=app_id)
         job = Job.objects.get(id=app.job_id)
-        profile = Profile.objects.get(user_id=app.applicant_id)
+        profile1 = Profile.objects.get(user_id=app.applicant_id)
+        profile2 = Profile.objects.get(user_id=request.user.id)
         return render(request, "employer/chat.html", {
             "messages": messages,
             "app": app,
             "job": job,
-            "profile": profile
+            "profile1": profile1, # candidate
+            "profile2": profile2 # employer
         })
