@@ -1,0 +1,60 @@
+{% extends "employer/base.html" %}
+
+{% block title %}
+    Employer
+{% endblock %}
+
+{% block main %}
+    <h1>Schedule Interview</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <div>
+            <h4>Select the Job</h4>
+            <select class="form-control" name="job">
+                {% for j in jobs %}
+                    <option value="{{ j.id }}">{{ j.title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <br>
+
+        <div id="candidates-div" style="display: none;">
+            <h4>Select the Candidate</h4>
+            <select class="form-control" id="candidates" name="candidate"></select>
+        </div>
+
+        <br>
+
+        <div style="display: none;" id="time">
+            <input type="datetime-local" class="form-control" name="time">
+        </div>
+
+        <script>
+            document.getElementsByTagName('select')[0].onchange = function() {
+
+                document.getElementById("candidates").options.length = 0;
+
+                var index = this.selectedIndex;
+                var jobId = this.children[index].value;
+
+                fetch(`/employer/job/candidate/${jobId}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    for (let i=0; i<data.length; i++) {
+                        document.getElementById("candidates-div").style = "";
+                        var opt = document.createElement("option");
+                        opt.setAttribute("value", data[i][0]);
+                        opt.innerHTML = data[i][1]
+                        document.getElementById("candidates").appendChild(opt);
+                    }
+                })
+
+                document.getElementById("time").style = ""
+            }
+        </script>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+{% endblock %}

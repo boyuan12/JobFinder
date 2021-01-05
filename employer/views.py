@@ -1,3 +1,4 @@
+from django.http.response import JsonResponse
 from helpers import get_s3
 from django.shortcuts import render
 from dashboard.models import Profile, ChatMessage
@@ -5,6 +6,9 @@ from .models import Job, Qualification
 from django.http import HttpResponseRedirect
 from jobs.models import Application
 from django.contrib.auth.models import User
+import requests
+import json
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -101,3 +105,39 @@ def chat_with_candidate(request, app_id):
             "profile1": profile1, # candidate
             "profile2": profile2 # employer
         })
+
+
+def schedule_interview(request):
+    if request.method == "POST":
+        # data = requests.post("https://api.zoom.us/v2/users/me/meetings", headers={
+        #     'content-type': "application/json",
+        #     "authorization": f"Bearer {request.session['zoom_access_token']}"
+        # }, data=json.dumps({
+        #     "topic": "Interview with ",
+        #     "type": 2,
+        #     "start_time": "2020-04-15T10:00:00",
+        # }))
+
+
+        # print(request.session['zoom_access_token'])
+        # print(data.text)
+
+        return HttpResponse(request.POST["time"])
+
+    else:
+        profile = Profile.objects.get(user_id=request.user.id)
+        jobs = Job.objects.filter(profile=profile.id)
+        return render(request, "employer/schedule-interview.html", {
+            "jobs": jobs,
+        })
+
+
+def job_candidates(request, job_id):
+    apps = Application.objects.filter(job_id=job_id)
+    candidates = []
+    for a in apps:
+        user = User.objects.get(id=a.applicant_id)
+        profile = Profile.objects.get(user_id=user.id)
+        candidates.append([user.id, profile.name])
+    return JsonResponse(candidates, safe=False)
+

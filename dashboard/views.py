@@ -5,11 +5,21 @@ from django.shortcuts import render
 from .models import ChatMessage, Profile
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
+import requests
+import json
 
 # S3_ACCESS_KEY_ID
 # S3_SECRET_ACCESS_KEY_ID
 
 # Create your views here.
+def base64_encode(message):
+    import base64
+    message_bytes = message.encode('ascii')
+    base64_bytes = base64.b64encode(message_bytes)
+    base64_message = base64_bytes.decode('ascii')
+    return base64_message
+
+
 @login_required(login_url="/auth/login/")
 def index(request):
 
@@ -62,3 +72,15 @@ def chat(request, app_id):
             "profile1": profile1, # candidate
             "profile2": profile2 # employer
         })
+
+
+def zoom_callback(request):
+    code = request.GET["code"]
+    data = requests.post(f"https://zoom.us/oauth/token?grant_type=authorization_code&code={code}&redirect_uri=http://127.0.0.1:8000/zoom/callback/", headers={
+        "Authorization": "Basic " + base64_encode("k8SPArNSai_zq5rbE0SmA:l8JCpZsZ815TxBz79SgtaHds1sGYgV86")
+    })
+    print(data.text)
+    request.session["zoom_access_token"] = data.json()["access_token"]
+
+    return HttpResponseRedirect("/employer/schedule-interview/")
+
