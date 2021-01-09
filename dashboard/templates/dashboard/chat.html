@@ -9,22 +9,26 @@
     <p>This page will automatically reload every 5 minute to ensure you get the most recent messages sent.</p>
     {% for m in messages %}
         {% if m.from_id != request.user.id %}
+            {% if m.public == True %}
             <div>
                 {{ m.timestamp }} <br>
                 <b>{{ profile2.name }}</b>: <br>
-                {{ m.message }}
+                {{ m.message|safe }}
             </div>
+            {% endif %}
         {% else %}
-            <div>
-                {{ m.timestamp }} <br>
-                <b>{{ profile1.name }}</b>: <br>
-                {{ m.message }}
-            </div>
+            {% if m.public == True %}
+                <div>
+                    {{ m.timestamp }} <br>
+                    <b>{{ profile1.name }}</b>: <br>
+                    {{ m.message|safe }}
+                </div>
+            {% endif %}
         {% endif %}
         <br>
     {% endfor %}
     <hr>
-    <h3>Send a message to {{ profile2.name }}</h3>
+    <h3>Send a message to {{ profile1.name }}</h3>
     <form method="POST">
         {% csrf_token %}
         <div>

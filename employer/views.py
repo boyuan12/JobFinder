@@ -109,20 +109,28 @@ def chat_with_candidate(request, app_id):
 
 def schedule_interview(request):
     if request.method == "POST":
-        # data = requests.post("https://api.zoom.us/v2/users/me/meetings", headers={
-        #     'content-type': "application/json",
-        #     "authorization": f"Bearer {request.session['zoom_access_token']}"
-        # }, data=json.dumps({
-        #     "topic": "Interview with ",
-        #     "type": 2,
-        #     "start_time": "2020-04-15T10:00:00",
-        # }))
+
+        candidate = User.objects.get(id=int(request.POST["candidate"]))
+        candidate_profile = Profile.objects.get(user_id=candidate.id)
+        app = Application.objects.get(applicant_id=candidate.id, job_id=int(request.POST["job"]))
+
+        data = requests.post("https://api.zoom.us/v2/users/me/meetings", headers={
+            'content-type': "application/json",
+            "authorization": f"Bearer {request.session['zoom_access_token']}"
+        }, data=json.dumps({
+            "topic": f"Interview with {candidate_profile.name}",
+            "type": 2,
+            "start_time": request.POST["time"],
+        }))
+
+        print(data.json()["join_url"], data.json()["start_url"])
+
+        ChatMessage(from_id=request.user.id, to_id=candidate.id, application_id=app.id, message=f"Hello! Your interview been successfully created! Please join this <a href='{data.json()['join_url']}'>Zoom meeting</a> on {data.json()['start_time']} UTC. Good Luck!").save()
+
+        ChatMessage(from_id=request.user.id, to_id=candidate.id, application_id=app.id, message=f"This is only viewable to you, to start the Zoom meeting, click this <a href='{data.json()['start_url']}'>link</a>.", public=False).save()
 
 
-        # print(request.session['zoom_access_token'])
-        # print(data.text)
-
-        return HttpResponse(request.POST["time"])
+        return HttpResponseRedirect(f"/employer/chat/{app.id}")
 
     else:
         profile = Profile.objects.get(user_id=request.user.id)

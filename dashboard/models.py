@@ -13,3 +13,4 @@ class ChatMessage(models.Model):
     application_id = models.IntegerField()
     message = models.TextField()
     timestamp = models.DateTimeField(auto_now=True)
+    public = models.BooleanField(default=True)

@@ -12,13 +12,13 @@
             <div>
                 {{ m.timestamp }} <br>
                 <b>{{ profile1.name }}</b>: <br>
-                {{ m.message }}
+                {{ m.message|safe }}
             </div>
         {% else %}
             <div>
                 {{ m.timestamp }} <br>
                 <b>{{ profile2.name }}</b>: <br>
-                {{ m.message }}
+                {{ m.message|safe }}
             </div>
         {% endif %}
         <br>

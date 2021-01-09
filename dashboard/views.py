@@ -58,7 +58,7 @@ def chat(request, app_id):
         message = request.POST["message"]
         to_id = Application.objects.get(id=app_id).applicant_id
         ChatMessage(from_id=request.user.id, to_id=to_id, application_id=app_id, message=message).save()
-        return HttpResponseRedirect("/chat/2/")
+        return HttpResponseRedirect(f"/chat/{app_id}/")
     else:
         app = Application.objects.get(id=app_id)
         messages = ChatMessage.objects.filter(application_id=app_id)
