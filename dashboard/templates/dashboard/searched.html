@@ -44,9 +44,9 @@
 
     <nav aria-label="Page navigation example">
         <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="">1</a></li>
-            <li class="page-item"><a class="page-link" href="&p=2">2</a></li>
-            <li class="page-item"><a class="page-link" href="&p=3">3</a></li>
+            {% for p in pagination %}
+                <li class="page-item"><a class="page-link" href="http://127.0.0.1:8000/dashboard/?q={{ q }}&p={{ p }}">{{ p }}</a></li>
+            {% endfor %}
         </ul>
     </nav>
 {% endblock %}

@@ -6,7 +6,7 @@ from .models import ChatMessage, Profile
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 import requests
-import json
+import math
 
 # S3_ACCESS_KEY_ID
 # S3_SECRET_ACCESS_KEY_ID
@@ -89,9 +89,19 @@ def search_job(request):
     if request.GET.get("q"):
         # search for the job
         jobs = Job.objects.filter(title__contains=request.GET.get("q"))
-        print(len(jobs))
+        total_jobs = len(jobs)
+        if request.GET.get("p"):
+            p = int(request.GET.get("p"))
+            if p == 1:
+                jobs = Job.objects.filter(title__contains=request.GET.get("q"))[0:5] 
+            else:
+                jobs = Job.objects.filter(title__contains=request.GET.get("q"))[5*p-5:5*p] # 2: 5 - 9
+
         return render(request, "dashboard/searched.html", {
-            "jobs": jobs
+            "jobs": jobs,
+            "pagination": [i+1 for i in range(math.ceil(total_jobs/5))],
+            "current_page": "".join(['None' if request.GET.get("p") == None else request.GET.get("p")]),
+            "q": request.GET.get("q"),
         })
     else:
         return render(request, "dashboard/index.html")
