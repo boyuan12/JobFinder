@@ -19,7 +19,7 @@
             <li>{{ q.name }}</li>
         {% endfor %}
       </ul>
-      <a href="#" class="btn btn-primary">Apply</a>
+      <a href="/jobs/apply/{{ job.code }}" class="btn btn-primary">Apply</a>
     </div>
     <div class="card-footer text-muted">
       Posted on {{ job.timestamp }}

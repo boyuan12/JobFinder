@@ -1,0 +1,52 @@
+{% extends "authentication/base.html" %}
+
+{% block title %}
+    Searched
+{% endblock %}
+
+{% block main %}
+    <style>
+        .job-box {
+            border: 2px solid black;
+            padding: 10%;
+        }
+
+        .desc {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    </style>
+    <div class="row">
+        <div class="col-3">
+            {% for job in jobs %}
+                <div class="job-box" onclick='fetchJobInfo("{{ job.code }}")'>
+                    <h5>{{ job.title }}</h5>
+                    <b>${{ job.min_salary }} - ${{ job.max_salary }}{{ job.freq }}</b>
+                    <p>{{ job.location }}</p>
+                    <p class="desc">{{ job.description }}</p>
+                </div>
+                <br>
+                <br>
+            {% endfor %}
+        </div>
+        <div class="col-9" id="job-info"></div>
+    </div>
+
+    <script>
+        fetchJobInfo = (job_id) => {
+            fetch(`/jobs/${job_id}`)
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("job-info").innerHTML = data;
+            })
+        }
+    </script>
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="">1</a></li>
+            <li class="page-item"><a class="page-link" href="&p=2">2</a></li>
+            <li class="page-item"><a class="page-link" href="&p=3">3</a></li>
+        </ul>
+    </nav>
+{% endblock %}

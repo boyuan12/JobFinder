@@ -34,7 +34,7 @@ def index(request):
 
     elif int(request.session.get("role")) == 0:
         return HttpResponseRedirect("/employer/")
-    return HttpResponse("Welcome to the dashboard!")
+    return HttpResponseRedirect("/dashboard/")
 
 
 @login_required(login_url="/auth/login/")
@@ -83,4 +83,16 @@ def zoom_callback(request):
     request.session["zoom_access_token"] = data.json()["access_token"]
 
     return HttpResponseRedirect("/employer/schedule-interview/")
+
+
+def search_job(request):
+    if request.GET.get("q"):
+        # search for the job
+        jobs = Job.objects.filter(title__contains=request.GET.get("q"))
+        print(len(jobs))
+        return render(request, "dashboard/searched.html", {
+            "jobs": jobs
+        })
+    else:
+        return render(request, "dashboard/index.html")
 
