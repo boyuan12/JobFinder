@@ -27,8 +27,8 @@
         <div>
             <textarea cols="100" rows="10" name="cover" disabled>{{ app.cover_letter }}</textarea>
         </div>
-        <button type="button" class="btn btn-danger">Reject This Candidate</button>
+        <button type="button" class="btn btn-danger" onclick='location.assign("/app/{{ app.id }}/reject")'>Reject This Candidate</button>
         <button type="button" class="btn btn-primary">Invite this candidate to interview</button>
-        <button type="button" class="btn btn-success">Hire This Candidate</button>
+        <button type="button" class="btn btn-success" onclick='location.assign("/app/{{ app.id }}/hire")'>Hire This Candidate</button>
     </form>
 {% endblock %}

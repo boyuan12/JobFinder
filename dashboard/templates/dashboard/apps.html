@@ -1,0 +1,13 @@
+{% extends "employer/base.html" %}
+
+{% block title %}
+    Employer
+{% endblock %}
+
+{% block main %}
+    <ul>
+        {% for a in apps %}
+            <li><a href="/chat/{{ a.1.id }}">You applied to {{ a.0.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

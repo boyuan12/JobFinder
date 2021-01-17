@@ -149,3 +149,17 @@ def job_candidates(request, job_id):
         candidates.append([user.id, profile.name])
     return JsonResponse(candidates, safe=False)
 
+
+def reject_candidate(request, app_id):
+    app = Application.objects.get(id=app_id)
+    app.status = 2
+    app.save()
+    return HttpResponse("Rejected")
+
+
+def reject_candidate(request, app_id):
+    app = Application.objects.get(id=app_id)
+    app.status = 3
+    app.save()
+    return HttpResponse("Hired")
+

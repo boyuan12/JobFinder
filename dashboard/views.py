@@ -106,3 +106,15 @@ def search_job(request):
     else:
         return render(request, "dashboard/index.html")
 
+
+@login_required(login_url="/auth/login/")
+def view_apps(request):
+    data = []
+    apps = Application.objects.filter(applicant_id=request.user.id)
+    for a in apps:
+        job = Job.objects.get(id=a.job_id)
+        data.append([job, a])
+    return render(request, "dashboard/apps.html", {
+        "apps": data
+    })
+
